@@ -1,6 +1,6 @@
 service: serverless-udagram-app
 
-frameworkVersion: '3'
+frameworkVersion: '4'
 
 provider:
   name: aws
@@ -8,3 +8,9 @@ provider:
 
 functions:
   # TODO: Add a function definition
+  getGroups:
+    handler: src/lambda/http/getGroups.handler
+    events:
+      - http:
+          path: groups
+          method: get
