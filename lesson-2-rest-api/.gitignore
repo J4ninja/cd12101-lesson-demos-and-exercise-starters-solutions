@@ -1,3 +1,4 @@
 */**/,serverless
 **/.serverless
 .serverless
+/**/node_modules
