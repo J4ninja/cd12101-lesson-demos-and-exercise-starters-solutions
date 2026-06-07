@@ -1,13 +1,13 @@
 service: serverless-udagram-app
 
-frameworkVersion: '3'
+frameworkVersion: '4'
 
 provider:
   name: aws
   runtime: nodejs16.x
 
   stage: ${opt:stage, 'dev'}
-  region: ${opt:region, 'us-east-1'}
+  region: 'us-east-1'
 
   environment:
     GROUPS_TABLE: Groups-${self:provider.stage}
@@ -18,7 +18,9 @@ provider:
         - Effect: Allow
           Action:
             - dynamodb:Scan
+            - dynamodb:PutItem
             # TODO: Add PutItem permissions
+
           Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.GROUPS_TABLE}
 
 functions:
@@ -30,6 +32,13 @@ functions:
           path: groups
           cors: true
   # TODO: Add a function definition
+  CreateGroup:
+    handler: src/lambda/http/createGroup.handler
+    events:
+      - http:
+          method: post
+          path: groups
+          cors: true
 
 resources:
   Resources:
